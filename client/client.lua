@@ -181,7 +181,7 @@ local function ApplyAllComponents(category, value, ped, set)
 	ApplyShopItemToPed(value.comp, ped)
 
 	if category ~= "Boots" then
-		UpdateShopItemWearableState(ped, `base`)
+		UpdateShopItemWearableState(value.comp, `base`)
 	end
 
 	Citizen.InvokeNative(0xAAB86462966168CE, ped, 1)
