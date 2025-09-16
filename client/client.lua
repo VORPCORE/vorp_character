@@ -2,7 +2,7 @@ local PromptGroup <const> = GetRandomIntInRange(0, 0xffffff)
 local DeletePrompt
 local SelectPrompt
 local GoBackPrompt
-local selectedChar        = 1 
+local selectedChar        = 1
 local myChars             = {}
 local textureId           = -1
 local MaxCharacters
@@ -12,16 +12,16 @@ local random
 local canContinue         = false
 local MalePed
 local FemalePed
-local characterChosen = false
+local characterChosen     = false
 local MenuData            = exports.vorp_menu:GetMenuData()
-Core                      = exports.vorp_core:GetCore() 
+Core                      = exports.vorp_core:GetCore()
 Custom                    = nil
 Peds                      = {}
 CachedSkin                = {}
 CachedComponents          = {}
 T                         = Translation.Langs[Lang]
 CHARID                    = nil
-local width, _            = GetCurrentScreenResolution()  
+local width, _            = GetCurrentScreenResolution()
 
 local imgPath             = "<img style='max-height:450px;max-width:280px;float: center;'src='nui://" .. GetCurrentResourceName() .. "/images/%s.png'>"
 local img                 = "<img style='margin-top: 10px;margin-bottom: 10px; margin-left: -10px;'src='nui://" .. GetCurrentResourceName() .. "/images/%s.png'>"
@@ -97,7 +97,7 @@ AddEventHandler("vorpcharacter:selectCharacter", function(myCharacters, mc, rand
 		end
 		characterChosen = false
 	end)
-	
+
 	random = rand
 	myChars = myCharacters
 	MaxCharacters = mc
@@ -342,7 +342,7 @@ function StartSwapCharacters()
 	Citizen.InvokeNative(0xFDB74C9CC54C3F37, options.timecycle.strength)
 	StartPlayerTeleport(PlayerId(), options.playerpos.x, options.playerpos.y, options.playerpos.z, 0.0, true, true, true, true)
 	repeat Wait(0) until not IsPlayerTeleportActive()
-	SetEntityCoords(PlayerPedId(), options.playerpos.x, options.playerpos.y, options.playerpos.z,false,false,false,false) -- sometimes it doesnt tp with devmode. so we enforce
+	SetEntityCoords(PlayerPedId(), options.playerpos.x, options.playerpos.y, options.playerpos.z, false, false, false, false) -- sometimes it doesnt tp with devmode. so we enforce
 	PrepareMusicEvent(options.music)
 	Wait(100)
 	TriggerMusicEvent(options.music)
@@ -649,17 +649,17 @@ AddEventHandler("vorpcharacter:reloadafterdeath", function()
 	local getPedModel = GetEntityModel(player)
 	local reload = false
 	if getPedModel ~= joaat("mp_female") and getPedModel ~= joaat("mp_male") then
-		print("Not a mp model")
+		-- Not a mp model convert to this model before reload to player model?
 		Wait(5000)
 		LoadPlayer(joaat("CS_dutch"))
 		SetPlayerModel(PlayerId(), joaat("CS_dutch"), false)
-		IsPedReadyToRender(PlayerPedId())
+		IsPedReadyToRender(player)
 		SetModelAsNoLongerNeeded(joaat("CS_dutch"))
 		reload = true
 	end
 
 	if CachedSkin and CachedComponents then
-		LoadPlayerComponents(PlayerPedId(), CachedSkin, CachedComponents, reload)
+		LoadPlayerComponents(player, CachedSkin, CachedComponents, reload)
 	end
 
 	SetAttributeCoreValue(player, 0, 100)
@@ -675,12 +675,14 @@ function LoadPlayerComponents(ped, skin, components, reload)
 	local getPedModel = GetEntityModel(ped)
 
 	if reload or getPedModel ~= joaat("mp_female") and getPedModel ~= joaat("mp_male") then
-		local skinS = not Custom and getPedModel or Custom
-		LoadPlayer(joaat(skinS))
-		SetPlayerModel(PlayerId(), joaat(skinS), false)
+		-- is npc model convert to player model
+		local skinS = not Custom and skin.sex or Custom
+		if type(skinS) == "string" then skinS = joaat(skinS) end
+		LoadPlayer(skinS)
+		SetPlayerModel(PlayerId(), skinS, false)
 		SetEntityFadeIn(ped)
 		ped = PlayerPedId()
-		SetModelAsNoLongerNeeded(joaat(skinS))
+		SetModelAsNoLongerNeeded(skinS)
 		Custom = nil
 	end
 
