@@ -225,7 +225,7 @@ Core.Callback.Register("vorp_character:callback:PayToShop", function(source, cal
 	end
 	local character = user.getUsedCharacter
 	local money = character.money
-	local amountToPay = arguments.amount
+	local amountToPay = tonumber(arguments.amount)
 
 	if money < amountToPay then
 		SetTimeout(5000, function()
