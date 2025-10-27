@@ -171,7 +171,6 @@ RegisterNetEvent("vorpcharacter:setPlayerCompChange", function(skinValues, comps
 end)
 
 
-RegisterNetEvent("vorp_character:server:SpawnUniqueCharacter")
 AddEventHandler("vorp_character:server:SpawnUniqueCharacter", function(source)
 	local userCharacters = GetPlayerData(source)
 	if not userCharacters then
