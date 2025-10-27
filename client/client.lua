@@ -79,8 +79,7 @@ RegisterNetEvent("vorpcharacter:spawnUniqueCharacter", function(myChar)
 	CharSelect()
 end)
 
-RegisterNetEvent("vorpcharacter:selectCharacter")
-AddEventHandler("vorpcharacter:selectCharacter", function(myCharacters, mc, rand)
+RegisterNetEvent("vorpcharacter:selectCharacter", function(myCharacters, mc, rand)
 	if #myCharacters < 1 then
 		return TriggerEvent("vorpcharacter:startCharacterCreator")
 	end
