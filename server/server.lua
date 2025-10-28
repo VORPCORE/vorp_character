@@ -145,10 +145,16 @@ RegisterServerEvent("vorpcharacter:deleteCharacter", function(selectedChar)
 	end
 end)
 
+-- only allow the player to use this once since they have to leave to change characters, can be removed once theres a way to allow changing characters in run time
+local charSelected <const> = {}
 RegisterServerEvent("vorp_CharSelectedCharacter", function(charid)
 	local _source = source
-	local user = Core.getUser(_source)
+	if charSelected[_source] then return print("player has already selected a character") end
+
+	-- player exists
+	local user <const> = Core.getUser(_source)
 	if user then
+		charSelected[_source] = true
 		user.setUsedCharacter(charid)
 	end
 end)
