@@ -298,26 +298,30 @@ end
 function CharSelect()
 	DoScreenFadeOut(0)
 	repeat Wait(0) until IsScreenFadedOut()
-	Wait(1000)
+
 	local charIdentifier = myChars[selectedChar].charIdentifier
 	CHARID = charIdentifier
 	local nModel = tostring(myChars[selectedChar].skin.sex)
 	CachedSkin = myChars[selectedChar].skin
 	CachedComponents = myChars[selectedChar].components
+
 	SetCachedSkin()
 	TriggerServerEvent("vorp_CharSelectedCharacter", charIdentifier)
-	RequestModel(nModel, false)
-	repeat Wait(0) until HasModelLoaded(nModel)
-	Wait(1000)
+
+	if not HasModelLoaded(nModel) then
+		RequestModel(nModel, false)
+		repeat Wait(0) until HasModelLoaded(nModel)
+	end
+
 	SetPlayerModel(PlayerId(), joaat(nModel), false)
-	SetModelAsNoLongerNeeded(nModel)
-	Wait(1000)
-	LoadPlayerComponents(PlayerPedId(), CachedSkin, CachedComponents)
+	local ped = PlayerPedId()
+	LoadPlayerComponents(ped, CachedSkin, CachedComponents)
 	NetworkClearClockTimeOverride()
-	FreezeEntityPosition(PlayerPedId(), false)
-	SetEntityVisible(PlayerPedId(), true)
-	SetPlayerInvincible(PlayerId(), false)
-	SetEntityCanBeDamaged(PlayerPedId(), true)
+	FreezeEntityPosition(ped, false)
+	SetEntityVisible(ped, true)
+	SetPlayerInvincible(ped, false)
+	SetEntityCanBeDamaged(ped, true)
+
 	local coords = myChars[selectedChar].coords
 	if not coords.x or not coords.y or not coords.z or not coords.heading then
 		print("No coords found send back to original")
@@ -327,8 +331,9 @@ function CharSelect()
 	local playerCoords = vector3(tonumber(coords.x), tonumber(coords.y), tonumber(coords.z))
 	local heading = coords.heading
 	local isDead = myChars[selectedChar].isDead
-	TriggerEvent("vorp:initCharacter", playerCoords, heading, isDead) -- in here players will be removed from instance
+	TriggerEvent("vorp:initCharacter", playerCoords, heading, isDead)
 	characterChosen = true
+	SetModelAsNoLongerNeeded(nModel)
 end
 
 function StartSwapCharacters()
