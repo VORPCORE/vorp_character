@@ -15,6 +15,14 @@ FemalePed = nil
 MalePed = nil
 
 
+-- you must set to true to wait the character scene, and once your loading screen is finished you must set to false to then continue the scene (this is only if you using loading screen and you manually shut them off other wise dont use it)
+-- example, you have loading screen where player needs to press a button to end loading screen, using the event  you can wait fot the scene to start so they dont miss it
+-- this is just optional
+local loadingScene = false
+AddEventHandler("vorpcharacter:stopLoadingScene", function(value)
+	loadingScene = value
+end)
+
 function SetupCameraCharacterCreationSelect()
 	local camera = CreateCamera(`DEFAULT_SCRIPTED_CAMERA`, true)
 	local pos = vec3(-562.15, -3776.22, 239.11)
@@ -48,6 +56,8 @@ local function Setup()
 	local peds = {}
 
 	if Config.UseInitialAnimScene then
+		repeat Wait(500) until not loadingScene
+
 		animscene, peds = SetupAnimscene()
 		LoadAnimScene(animscene)
 		repeat Wait(0) until Citizen.InvokeNative(0x477122B8D05E7968, animscene)
@@ -308,7 +318,7 @@ function StartPrompts(value)
 		SetCamCoord(cam, newPos.x, newPos.y, newPos.z)
 		SetCamRot(cam, rot.x, rot.y, rot.z, 2)
 
-	
+
 		if not IsInCharCreation then
 			if not IsInClothingStore then
 				break
@@ -325,7 +335,6 @@ function StartPrompts(value)
 	DestroyCam(cam, false)
 	RenderScriptCams(false, true, 500, true, true, 0)
 end
-
 
 function DefaultPedSetup(ped, male)
 	local gender                = male and "M" or "F"
