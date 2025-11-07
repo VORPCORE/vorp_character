@@ -151,9 +151,37 @@ function PrepareClothingStore(value, shopType)
     SetEntityCoords(PlayerPedId(), value.EditCharacter.Position.x, value.EditCharacter.Position.y, value.EditCharacter.Position.z, true, true, true, false)
     PlaceEntityOnGroundProperly(PlayerPedId(), false)
     SetEntityHeading(PlayerPedId(), value.EditCharacter.Position.w)
-    RegisterGenderPrompt() -- camera prompts register
+    RegisterGenderPrompt()
     CreateThread(function()
+        if not MenuData.RegisterControls then
+            return print("UPDATE VORP MENU")
+        end
+        -- obly accepts java script controls
+        -- for mouse send mousepress and listen for mousepress_left and mousepress_right
+        MenuData.RegisterControls({ 'a', 'd', 'w', 's', 'mousepress' }, function(control)
+            -- simulates control press
+            if control == 'mousepress_left' then
+                SetControlValueNextFrame(0, `INPUT_INSPECT_ZOOM`, 1.0) -- TODO add config
+            end
+            if control == 'mousepress_right' then
+                SetControlValueNextFrame(0, `INPUT_CONTEXT_ACTION`, 1.0)
+            end
+            if control == 'a' then
+                SetControlValueNextFrame(0, `INPUT_MOVE_LEFT_ONLY`, 1.0)
+            end
+            if control == 'd' then
+                SetControlValueNextFrame(0, `INPUT_MOVE_RIGHT_ONLY`, 1.0)
+            end
+            if control == 'w' then
+                SetControlValueNextFrame(0, `INPUT_MOVE_UP_ONLY`, 1.0)
+            end
+            if control == 's' then
+                SetControlValueNextFrame(0, `INPUT_MOVE_DOWN_ONLY`, 1.0)
+            end
+        end)
         StartPrompts(value.CameraPosition)
+        -- unregister controls when isnt needed anymore
+        MenuData.UnregisterControls()
     end)
     EnableCharCreationPrompts(true)
     local Clothing = OrganiseClothingData(Gender)

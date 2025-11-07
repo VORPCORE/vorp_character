@@ -13,7 +13,7 @@ local canContinue         = false
 local MalePed
 local FemalePed
 local characterChosen     = false
-local MenuData            = exports.vorp_menu:GetMenuData()
+MenuData                  = exports.vorp_menu:GetMenuData()
 Core                      = exports.vorp_core:GetCore()
 Custom                    = nil
 Peds                      = {}
