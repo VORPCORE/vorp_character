@@ -52,7 +52,7 @@ Translation.Langs = {
             press = "press",
             inputlangdesc = "[A-Za-z ]{5,2000000}", -- change for you lang
             inputlang = "[A-Za-z ]{5,20}",          -- change for you lang
-            confirmpurchase = "Confirm purchase",
+            confirmpurchase = "Confirm",
 
         },
         Other = {
@@ -357,7 +357,7 @@ Translation.Langs = {
             press = "premere",
             inputlangdesc = "[A-Za-z ]{5,2000000}", -- change for you lang
             inputlang = "[A-Za-z ]{5,20}",          -- change for you lang
-            confirmpurchase = "Confermare l'acquisto",
+            confirmpurchase = "Confermare",
         },
         Other = {
             spinnertext = "La selezione del personaggio è in caricamento",
@@ -673,7 +673,7 @@ Translation.Langs = {
             press = "imprensa",
             inputlangdesc = "[A-Za-z ]{5,2000000}", -- change for you lang
             inputlang = "[A-Za-z ]{5,20}",          -- change for you lang
-            confirmpurchase = "Confirm purchase",
+            confirmpurchase = "Confirm",
         },
         Other = {
             spinnertext = "A seleção de personagens está carregando",
@@ -983,7 +983,7 @@ Translation.Langs = {
             press = "pressione",
             inputlangdesc = "[A-Za-z ]{5,2000000}",
             inputlang = "[A-Za-z ]{5,20}",
-            confirmpurchase = "Confirmar compra",
+            confirmpurchase = "Confirmar",
         },
         Other = {
             spinnertext = "Carregando seleção de personagem",
@@ -1269,7 +1269,7 @@ Translation.Langs = {
             press = "presse",
             inputlangdesc = "[A-Za-z ]{5,2000000}", -- change for you lang
             inputlang = "[A-Za-z ]{5,20}",          -- change for you lang
-            confirmpurchase = "Confirm purchase",
+            confirmpurchase = "Confirm",
         },
         Other = {
             spinnertext = "La sélection des caractères est en cours de chargement",
@@ -1894,7 +1894,7 @@ Translation.Langs = {
             press = "pulsa",
             inputlangdesc = "[A-Za-z ]{5,2000000}", -- cambia según tu idioma
             inputlang = "[A-Za-z ]{5,20}",          -- cambia según tu idioma
-            confirmpurchase = "Confirmar compra",
+            confirmpurchase = "Confirmar",
         },
         Other = {
             spinnertext = "La selección de personajes se está cargando",
@@ -2197,7 +2197,7 @@ Translation.Langs = {
             press = "apasa",
             inputlangdesc = "[A-Za-z ]{5,2000000}", -- schimba pentru limba ta
             inputlang = "[A-Za-z ]{5,20}",          -- schimba pentru limba ta
-            confirmpurchase = "Confirma achizitia",
+            confirmpurchase = "Confirma",
         },
         Other = {
             spinnertext = "Se incarca lista cu caractere",

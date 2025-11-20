@@ -770,7 +770,8 @@ function OpenClothingMenu(Table, value, Outfits)
 
                 OpenComponentMenu(Table, data.current.value, value, Outfits)
             end
-        end)
+        end
+    )
 end
 
 function GetExtraPrice(category, comp)
@@ -1422,7 +1423,8 @@ function OpenAgeMenu(table, value)
                 ApplyOverlay("ageing", PlayerSkin.ageing_visibility, PlayerSkin.ageing_tx_id, 0, 0, 1, 1.0, 0, 0, 0, 0, 0, 1, PlayerSkin.ageing_opacity, PlayerSkin.albedo)
                 AgingTextureTracker = data.current.value
             end
-        end)
+        end
+    )
 end
 
 BodyTypeTracker = 1
@@ -1703,7 +1705,8 @@ function OpenHerritageMenu(table, value)
                     UpdatePedVariation()
                 end
             end
-        end)
+        end
+    )
 end
 
 --* Hair menu
@@ -1837,7 +1840,8 @@ function OpenHairMenu(table, value)
             if (data.current.value == "beardstabble") then
                 OpenBeardEyebrowMenu(table, "beardstabble_opacity", "beardstabble_tx_id", "beardstabble", 7, data.current.label, "beardstabble_color_primary", value)
             end
-        end)
+        end
+    )
 end
 
 local HairIndexTracker = {}
@@ -1980,7 +1984,8 @@ function OpenHairSelectionMenu(tablehair, table, label, category, value)
                     end
                 end
             end
-        end)
+        end
+    )
 end
 
 local MakeupIndexTracker = {}
@@ -2147,7 +2152,8 @@ function OpenBeardEyebrowMenu(table, opacity1, txt_id, category, index, label, c
 
                 ApplyOverlay(data.current.category, 1, PlayerSkin[data.current.txt_id], 1, 0, 0, 1.0, 0, 1, PlayerSkin[data.current.color], 0, 0, 1, PlayerSkin[data.current.opac], PlayerSkin.albedo)
             end
-        end)
+        end
+    )
 end
 
 --* Face features menu
@@ -2339,7 +2345,8 @@ function OpenFaceMenu(table, value)
             if data.current.option == "facefeatures" then
                 OpenFaceModificationMenu(table, data.current.tag, data.current.img, value)
             end
-        end)
+        end
+    )
 end
 
 function OpenFaceModificationMenu(table, comp, img, values)
@@ -2393,7 +2400,8 @@ function OpenFaceModificationMenu(table, comp, img, values)
                     TotalAmountToPay[comp] = ConfigShops.Prices.face[comp].price
                 end
             end
-        end)
+        end
+    )
 end
 
 --* HELPER
@@ -2573,7 +2581,8 @@ function OpenLifeStyleMenu(table, value)
                     TotalAmountToPay[data.current.name] = 0
                 end
             end
-        end)
+        end
+    )
 end
 
 local overlayLookup = {
@@ -2883,7 +2892,8 @@ function OpenMakeupMenu(table, value)
                     PlayerSkin[data.current.color3] or 0, PlayerSkin[data.current.variant] or 1,
                     PlayerSkin[data.current.opac], PlayerSkin.albedo)
             end
-        end)
+        end
+    )
 end
 
 --* OUTFITS MENU
@@ -2925,7 +2935,6 @@ function OpenOutfitsMenu(Table, value, Outfits)
             elements = elements,
             lastmenu = "OpenClothingMenu",
         },
-
         function(data, menu)
             if (data.current == "backup") then -- go back
                 return _G[data.trigger](Table, value, Outfits)
@@ -2934,7 +2943,8 @@ function OpenOutfitsMenu(Table, value, Outfits)
             if data.current.value then
                 OpenOutfitMenu(Table, value, Outfits, data.current.value)
             end
-        end)
+        end
+    )
 end
 
 function OpenOutfitMenu(Table, value, Outfits, Outfit)
