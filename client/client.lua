@@ -739,10 +739,43 @@ function FaceOverlay(name, visibility, tx_id, tx_normal, tx_material, tx_color_t
 				v.tx_unk = tx_unk
 
 				if tx_color_type == 0 then
-					v.palette = Config.color_palettes[name][palette_id]
-					v.palette_color_primary = palette_color_primary == 0 and 0x3F6E70FF or palette_color_primary
-					v.palette_color_secondary = palette_color_secondary or 0
-					v.palette_color_tertiary = palette_color_tertiary or 0
+					v.palette = Config.color_palettes[name] and Config.color_palettes[name].palette or 0
+
+					local p_primary = palette_color_primary
+					local p_secondary = palette_color_secondary
+					local p_tertiary = palette_color_tertiary
+
+					-- If we received hashes instead of indices (common after loading from DB), translate them
+					if Config.color_palettes[name] and Config.color_palettes[name].colors then
+						if p_primary and p_primary > 255 then
+							for i, hash in ipairs(Config.color_palettes[name].colors) do
+								if hash == p_primary then
+									p_primary = i
+									break
+								end
+							end
+						end
+						if p_secondary and p_secondary > 255 then
+							for i, hash in ipairs(Config.color_palettes[name].colors) do
+								if hash == p_secondary then
+									p_secondary = i
+									break
+								end
+							end
+						end
+						if p_tertiary and p_tertiary > 255 then
+							for i, hash in ipairs(Config.color_palettes[name].colors) do
+								if hash == p_tertiary then
+									p_tertiary = i
+									break
+								end
+							end
+						end
+					end
+
+					v.palette_color_primary = p_primary == 0 and 0x3F6E70FF or p_primary
+					v.palette_color_secondary = p_secondary or 0
+					v.palette_color_tertiary = p_tertiary or 0
 				end
 
 				v.var = 0

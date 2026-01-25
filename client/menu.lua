@@ -2010,10 +2010,15 @@ function OpenBeardEyebrowMenu(table, opacity1, txt_id, category, index, label, c
     end
 
     if not MakeupColorIndexTracker[category] then
-        if category == "eyebrows" then
-            MakeupColorIndexTracker[category] = 1
-        else
-            MakeupColorIndexTracker[category] = 0
+        MakeupColorIndexTracker[category] = 0
+        local savedColorHash = PlayerSkin[color]
+        if savedColorHash then
+            for i, hash in ipairs(Config.color_palettes[category].colors) do
+                if hash == savedColorHash then
+                    MakeupColorIndexTracker[category] = i
+                    break
+                end
+            end
         end
     end
 
@@ -2044,13 +2049,13 @@ function OpenBeardEyebrowMenu(table, opacity1, txt_id, category, index, label, c
         },
 
         {
-            label = T.MenuBeardEyeBrows.element2.label .. opacity:format(T.MenuBody.Ammount .. ' ' .. #Config.color_palettes[category]),
+            label = T.MenuBeardEyeBrows.element2.label .. opacity:format(T.MenuBody.Ammount .. ' ' .. #Config.color_palettes[category].colors),
             type = "slider",
             tag = "color",
             value = MakeupColorIndexTracker[category],
-            comp = Config.color_palettes[category],
+            comp = Config.color_palettes[category].colors,
             min = 0,
-            max = #Config.color_palettes[category],
+            max = #Config.color_palettes[category].colors,
             desc = imgPath:format("character_creator_hair") .. "<br><br><br>" .. T.MenuBeardEyeBrows.element2.desc,
             color = color,
             txt_id = txt_id,
@@ -2666,9 +2671,12 @@ function OpenMakeupMenu(table, value)
             }
 
             local ColorValue = 0
-            for x, color in pairs(Config.color_palettes[key]) do
-                if joaat(color) == PlayerSkin[overlayLookup[key].color] then
-                    ColorValue = x
+            if Config.color_palettes[key] and Config.color_palettes[key].colors then
+                for x, colorVal in pairs(Config.color_palettes[key].colors) do
+                    if colorVal == PlayerSkin[overlayLookup[key].color] then
+                        ColorValue = x
+                        break
+                    end
                 end
             end
 
@@ -2676,8 +2684,8 @@ function OpenMakeupMenu(table, value)
                 label = overlayLookup[key].label .. opacity:format(T.MenuMakeup.element6.label .. T.MenuMakeup.element7.desc2),
                 value = ColorValue,
                 min = 0,
-                max = 10,
-                comp = Config.color_palettes[key],
+                max = Config.color_palettes[key] and #Config.color_palettes[key].colors or 10,
+                comp = Config.color_palettes[key] and Config.color_palettes[key].colors or {},
                 type = "slider",
                 txt_id = overlayLookup[key].txt_id,
                 opac = overlayLookup[key].opacity,
@@ -2694,9 +2702,12 @@ function OpenMakeupMenu(table, value)
 
             if key == "lipsticks" then
                 local Color2Value = 0
-                for x, color in pairs(Config.color_palettes[key]) do
-                    if joaat(color) == PlayerSkin[overlayLookup[key].color2] then
-                        Color2Value = x
+                if Config.color_palettes[key] and Config.color_palettes[key].colors then
+                    for x, colorVal in pairs(Config.color_palettes[key].colors) do
+                        if colorVal == PlayerSkin[overlayLookup[key].color2] then
+                            Color2Value = x
+                            break
+                        end
                     end
                 end
 
@@ -2704,9 +2715,9 @@ function OpenMakeupMenu(table, value)
                     label = overlayLookup[key].label .. opacity:format(T.MenuMakeup.element7.label .. T.MenuMakeup.element7.desc2),
                     value = Color2Value,
                     min = 0,
-                    max = 10,
+                    max = Config.color_palettes[key] and #Config.color_palettes[key].colors or 10,
                     type = "slider",
-                    comp = Config.color_palettes[key],
+                    comp = Config.color_palettes[key] and Config.color_palettes[key].colors or {},
                     txt_id = overlayLookup[key].txt_id,
                     opac = overlayLookup[key].opacity,
                     color = overlayLookup[key].color,

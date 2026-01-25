@@ -106,10 +106,43 @@ function ApplyOverlay(name, visibility, tx_id, tx_normal, tx_material, tx_color_
                 v.tx_opacity = tx_opacity
                 v.tx_unk = tx_unk
                 if tx_color_type == 0 then
-                    v.palette = Config.color_palettes[name][palette_id]
-                    v.palette_color_primary = palette_color_primary
-                    v.palette_color_secondary = palette_color_secondary
-                    v.palette_color_tertiary = palette_color_tertiary
+                    v.palette = Config.color_palettes[name] and Config.color_palettes[name].palette or 0
+
+                    local p_primary = palette_color_primary
+                    local p_secondary = palette_color_secondary
+                    local p_tertiary = palette_color_tertiary
+
+                    -- If we received hashes instead of indices (common after loading from DB), translate them
+                    if Config.color_palettes[name] and Config.color_palettes[name].colors then
+                        if p_primary and p_primary > 255 then
+                            for i, hash in ipairs(Config.color_palettes[name].colors) do
+                                if hash == p_primary then
+                                    p_primary = i
+                                    break
+                                end
+                            end
+                        end
+                        if p_secondary and p_secondary > 255 then
+                            for i, hash in ipairs(Config.color_palettes[name].colors) do
+                                if hash == p_secondary then
+                                    p_secondary = i
+                                    break
+                                end
+                            end
+                        end
+                        if p_tertiary and p_tertiary > 255 then
+                            for i, hash in ipairs(Config.color_palettes[name].colors) do
+                                if hash == p_tertiary then
+                                    p_tertiary = i
+                                    break
+                                end
+                            end
+                        end
+                    end
+
+                    v.palette_color_primary = p_primary
+                    v.palette_color_secondary = p_secondary
+                    v.palette_color_tertiary = p_tertiary
                 end
                 if name == "shadows" or name == "eyeliners" or name == "lipsticks" then
                     v.var = var
@@ -175,12 +208,12 @@ local function CreatePedAtCoords(model, coords)
 end
 
 function SetupAnimscene()
-    local Male_MP = CreatePedAtCoords(`MP_MALE`, vector4(0.0, 0.0, 0.0, 0.0))
+    local Male_MP = CreatePedAtCoords(joaat("MP_MALE"), vector4(0.0, 0.0, 0.0, 0.0))
     Citizen.InvokeNative(0x77FF8D35EEC6BBC4, Male_MP, 3, true)
-    local Female_MP = CreatePedAtCoords(`MP_FEMALE`, vector4(0.0, 0.0, 0.0, 0.0))
+    local Female_MP = CreatePedAtCoords(joaat("MP_FEMALE"), vector4(0.0, 0.0, 0.0, 0.0))
     Citizen.InvokeNative(0x77FF8D35EEC6BBC4, Female_MP, 3, true)
 
-    local Sheriff = CreatePedAtCoords(`MP_U_M_O_BlWPoliceChief_01`, vector4(0.0, 0.0, 0.0, 0.0))
+    local Sheriff = CreatePedAtCoords(joaat("MP_U_M_O_BlWPoliceChief_01"), vector4(0.0, 0.0, 0.0, 0.0))
     Citizen.InvokeNative(0x283978A15512B2FE, Sheriff, true)
     AddEntityToAudioMixGroup(Sheriff, "rdro_character_creator_guard_group", 0.0)
     SetPedConfigFlag(Sheriff, 130, true)
@@ -188,13 +221,13 @@ function SetupAnimscene()
     SetPedConfigFlag(Sheriff, 315, true)
     FreezeEntityPosition(Sheriff, true)
 
-    local Deputy = CreatePedAtCoords(`CS_MP_MARSHALL_DAVIES`, vector4(0.0, 0.0, 0.0, 0.0))
+    local Deputy = CreatePedAtCoords(joaat("CS_MP_MARSHALL_DAVIES"), vector4(0.0, 0.0, 0.0, 0.0))
     Citizen.InvokeNative(0x283978A15512B2FE, Deputy, true)
     AddEntityToAudioMixGroup(Deputy, "rdro_character_creator_guard_group", 0.0)
     SetPedConfigFlag(Deputy, 130, true)
     SetPedConfigFlag(Deputy, 301, true)
     SetPedConfigFlag(Deputy, 315, true)
-    GiveWeaponToPed_2(Deputy, `WEAPON_REPEATER_CARBINE`, 100, true, false, 0, false, 0.5, 1.0, 752097756, false, 0.0,  false)
+    GiveWeaponToPed_2(Deputy, joaat("WEAPON_REPEATER_CARBINE"), 100, true, false, 0, false, 0.5, 1.0, 752097756, false, 0.0, false)
     FreezeEntityPosition(Deputy, true)
 
     local animscene = CreateAnimScene("script@mp@character_creator@transitions", 0.25, "pl_intro", false, true)
@@ -214,14 +247,14 @@ function SelectionPeds()
     Female_MP = CreatePed(joaat(fModel), -558.43, -3776.65, 237.7, 93.2, false, true, true, true)
     TaskStandStill(Female_MP, -1)
     SetEntityInvincible(Female_MP, true)
-  --  DefaultPedSetup(Female_MP, false)
+    --  DefaultPedSetup(Female_MP, false)
     SetModelAsNoLongerNeeded(fModel)
 
     LoadPlayer(mModel)
     Male_MP = CreatePed(joaat(mModel), -558.52, -3775.6, 237.7, 93.2, false, true, true, true)
     TaskStandStill(Male_MP, -1)
     SetEntityInvincible(Male_MP, true)
-  --  DefaultPedSetup(Male_MP, true)
+    --  DefaultPedSetup(Male_MP, true)
     SetModelAsNoLongerNeeded(mModel)
 
     return { Male_MP, Female_MP }
@@ -320,7 +353,7 @@ function ApplyDefaultClothing()
         if componentHash ~= 0 then
             local numWearableStates = Citizen.InvokeNative(0xFFCC2DB2D9953401, componentHash, not isPedMale, true, Citizen.ResultAsInteger())
             if numWearableStates > 0 then
-                local wearableStates = { `base` }
+                local wearableStates = { joaat("base") }
                 for wearableStateIndex = 0, numWearableStates - 1, 1 do
                     local wearableState = Citizen.InvokeNative(0x6243635AF2F1B826, componentHash, wearableStateIndex, not isPedMale, true, Citizen.ResultAsInteger())
                     if wearableState ~= 0 then
