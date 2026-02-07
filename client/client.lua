@@ -285,6 +285,7 @@ function LoadAll(gender, ped, pedskin, components, set)
 	LoadComps(ped, components, set)
 	SetPedScale(ped, skin.Scale)
 	UpdatePedVariation(ped)
+	TriggerEvent("vorpcharacter:loadedAll", gender, ped, skin, components, set)
 	return skin
 end
 
