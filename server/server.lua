@@ -119,10 +119,29 @@ local function iniSpawn()
 	return selectedSpawn.position, selectedSpawn.heading
 end
 
+local function WaitForCharacterSession(source, timeoutMs)
+	local timeout = timeoutMs or 15000
+	local startTime = GetGameTimer()
+
+	while GetGameTimer() - startTime < timeout do
+		local state = Player(source).state
+		if state and state.IsInSession and state.Character and state.Character.CharId then
+			return true
+		end
+		Wait(50)
+	end
+
+	return false
+end
+
 RegisterServerEvent("vorpcharacter:saveCharacter", function(data)
 	local _source = source
 	Core.getUser(_source).addCharacter(data)
-	Wait(600)
+
+	if not WaitForCharacterSession(_source) then
+		print(("vorp_character: timed out waiting for character session initialization for source %s"):format(_source))
+	end
+
 	local iniPos, iniHead = iniSpawn()
 	TriggerClientEvent("vorp:initCharacter", _source, iniPos, iniHead, false)
 	SetTimeout(3000, function()
