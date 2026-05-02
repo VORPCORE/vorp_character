@@ -217,6 +217,7 @@ RegisterCommand("tuck", function()
 	tuck = not tuck
 	local wearableState = tuck and joaat("base") or -2081918609
 	UpdateShopItemWearableState(ComponentB.comp, wearableState)
+	ApplyShopItemToPed(ComponentP.comp, PlayerPedId())
 
 	if not tuck and ComponentP.drawable then
 		SetTextureOutfitTints(PlayerPedId(), 'pants', ComponentP)
