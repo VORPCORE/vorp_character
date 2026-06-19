@@ -142,6 +142,12 @@ RegisterServerEvent("vorpcharacter:deleteCharacter", function(selectedChar)
 			selectedChar.charDesc
 		Core.AddWebhook(Logs.DeleteCharacterWebhhok.Title, Logs.WebhookUrl, description, Logs.color, Logs.DeleteCharacterWebhhok.WebhookName, Logs.logo, Logs.footerlogo, Logs.avatar)
 		user.removeCharacter(charid)
+
+		MySQL.query("DELETE FROM outfits WHERE charidentifier = @charidentifier", {
+			charidentifier = charid
+		})
+
+		TriggerEvent("vorp_character:characterDeleted", _source, charid)
 	end
 end)
 

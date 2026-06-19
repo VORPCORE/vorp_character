@@ -342,6 +342,8 @@ function DefaultPedSetup(ped, male)
 	PlayerSkin.Eyes             = joaat(("CLOTHING_ITEM_%s_EYES_001_TINT_014"):format(gender))
 	PlayerSkin.BodyType         = joaat(("CLOTHING_ITEM_%s_BODIES_UPPER_001_V_001"):format(gender))
 	PlayerSkin.Body             = PlayerSkin.BodyType
+	PlayerSkin.Torso            = PlayerSkin.BodyType
+	PlayerSkin.Waist            = Config.BodyType.Waist[1] or -2045421226
 	PlayerSkin.HeadType         = joaat(("CLOTHING_ITEM_%s_HEAD_00%d_V_001"):format(gender, HeadIndexTracker))
 	PlayerSkin.LegsType         = joaat(("CLOTHING_ITEM_%s_BODIES_LOWER_001_V_001"):format(gender))
 	PlayerSkin.albedo           = joaat(("MP_HEAD_%sR1_SC08_C0_000_AB"):format(gender))
