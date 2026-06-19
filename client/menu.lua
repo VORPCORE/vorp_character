@@ -1531,6 +1531,7 @@ function OpenBodyMenu(table, value)
 
                     if data.current.tag == "Body" then
                         PlayerSkin.Torso = compType
+                        PlayerSkin.BodyType = compType
                         BodyTypeTracker = data.current.value
                     else
                         PlayerSkin[data.current.tag] = compType
@@ -1688,6 +1689,7 @@ function OpenHerritageMenu(table, value)
                     local SkinColor     = Config.DefaultChar[SkinColorTracker]
                     PlayerSkin.LegsType = joaat(SkinColor.Legs[LegsTypeTracker]:format(_gender))
                     PlayerSkin.BodyType = joaat(SkinColor.Body[BodyTypeTracker]:format(_gender))
+                    PlayerSkin.Torso = PlayerSkin.BodyType
                     PlayerSkin.HeadType = joaat(SkinColor.Heads[HeadIndexTracker]:format(_gender))
                     PlayerSkin.albedo   = joaat(SkinColor.Albedo[1]:format(_gender))
                     -- local albedo        = Config.texture_types[gender].albedo
